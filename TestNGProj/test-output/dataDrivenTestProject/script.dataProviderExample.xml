@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="script.dataProviderExample" failures="0" tests="2" time="40.312" errors="0">
+  <properties/>
+  <testcase name="testDataProviderExample on instance null(test.SampleTest.DataProviderExample)" time="10.718" classname="test.SampleTest.DataProviderExample"/>
+  <testcase name="testDataProviderExample on instance null(test.SampleTest.DataProviderExample)" time="9.86" classname="test.SampleTest.DataProviderExample"/>
+</testsuite>

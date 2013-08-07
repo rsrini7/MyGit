@@ -1,0 +1,6 @@
+0,0,1,ID
+1,1,8,firstName
+2,9,5,lastName
+3,14,2,position
+4,16,4,CareerPeriod.debutYear
+5,20,4,CareerPeriod.finalYear

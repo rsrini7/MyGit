@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="VASANTHA" name="test.SampleTest.NewTest" tests="2" failures="0" timestamp="3 Jul 2011 16:06:08 GMT" time="0.015" errors="0">
+  <testcase name="aFastTest" time="0.0" classname="test.SampleTest.NewTest"/>
+  <testcase name="aSlowTest" time="0.0" classname="test.SampleTest.NewTest"/>
+</testsuite>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.SampleTest.NewTest" failures="0" tests="2" time="0.078" errors="0">
+  <properties/>
+  <testcase name="aFastTest" time="0.031" classname="test.SampleTest.NewTest"/>
+  <testcase name="aSlowTest" time="0.0" classname="test.SampleTest.NewTest"/>
+</testsuite>

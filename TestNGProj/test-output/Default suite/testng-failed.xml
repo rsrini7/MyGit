@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="0" name="Failed suite [Default suite]" parallel="false">
+  <test name="Default test(failed)">
+    <classes>
+      <class name="test.SampleTest.DataProviderExample">
+        <methods>
+          <include name="setUp"/>
+          <include name="testDataProviderExample" invocation-numbers="1"/>
+          <include name="tearDown"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>

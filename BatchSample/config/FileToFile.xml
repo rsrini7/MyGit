@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/batch 
+http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+		http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<beans:import resource="MEMORY-JOBREPOSITORY.xml" />
+	<!-- <beans:import resource="DB-JOBREPOSITORY.xml" /> -->
+
+
+	<beans:bean id="filePropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="ignoreUnresolvablePlaceholders"
+			value="true" />
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:./spring/file.dev.properties
+				</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="playerFileItemReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader">
+		<beans:property name="resource" value="file:d:\data\input\player1.csv" />
+		<beans:property name="lineMapper">
+			<beans:bean
+				class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<beans:property name="lineTokenizer">
+					<beans:bean class="com.ecomputercoach.file.GenericLineTokenizer">
+						<beans:property name="delimitedFlag" value="false" />
+						<beans:property name="formatFile" value="${FormatFile}" />
+					</beans:bean>
+				</beans:property>
+				<beans:property name="fieldSetMapper">
+					<!--
+						<beans:bean	class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+					-->
+					<!-- <beans:property name="targetType"
+						value="com.ecomputercoach.file.RealPlayer"/>
+					-->
+					<!--</beans:bean>-->
+
+					<beans:bean
+						class="com.ecomputercoach.file.PlayerFieldSetMapper">
+						
+					</beans:bean>
+				</beans:property>
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="careerProcessor" class="com.ecomputercoach.file.CareerProcessor" />
+
+	<beans:bean id="playerFileItemWriter"
+		class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<beans:property name="resource" value="file:d:\data\output\output.txt" />
+		<beans:property name="shouldDeleteIfExists" value="true" />
+		<beans:property name="lineAggregator">
+			<beans:bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<beans:property name="delimiter" value="-" />
+				<beans:property name="fieldExtractor">
+					<beans:bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<beans:property name="names" value="id,fullName" />
+					</beans:bean>
+				</beans:property>
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+
+	<job id="careerProcessorJob" job-repository="jobRepository">
+		<step id="step1">
+			<tasklet transaction-manager="transactionManager">
+				<chunk reader="playerFileItemReader" 
+					writer="playerFileItemWriter" commit-interval="10" />
+			</tasklet>
+		</step>
+	</job>
+</beans:beans>
