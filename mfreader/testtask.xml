@@ -1,0 +1,17 @@
+<project name="testtask" default="test">
+	<typedef resource="com/freeware/anttasks/antlib.xml">
+	     <classpath path="${basedir}/dist/mfprinter-1.0.2.jar" />
+	 </typedef>
+
+	<target name="test">
+		<manifestreader property="response" srcfile="${basedir}/dist/mfprinter-1.0.2.jar">
+	        <attribute name="Build-Date"                 value="Built On        :"/>
+	        <section name="mySection">
+	            <attribute name="Implementation-Title"   value="Product Name    :"/>
+	            <attribute name="Implementation-Version" value="Product Version :"/>
+	        	<attribute name="Implementation-Vendor"  value="Copyright       :"/>
+	    	</section>
+		</manifestreader>
+		<echo message="${response}"></echo>
+	</target>
+</project>

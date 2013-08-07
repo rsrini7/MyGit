@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()">
+<mx:Script>
+	<![CDATA[
+		import mx.messaging.messages.ErrorMessage;
+		import mx.rpc.events.FaultEvent;
+		import mx.controls.Alert;
+		import mx.rpc.events.ResultEvent;
+		private function init():void{
+			/* ro1.sayHello();
+			ro2.sayHello();
+			ro3.sayHello(); */
+	
+			ro1.exceptionTest();
+			ro2.exceptionTest();
+			ro3.exceptionTest();
+		}
+		
+		private function result(e:ResultEvent):void{
+			lbl.text = e.result as String;
+			Alert.show(lbl.text);
+		}
+		
+		private function fault(e:FaultEvent):void{
+			var errorMessage:ErrorMessage = e.message as ErrorMessage;
+			/* if(errorMessage.extendedData)
+				Alert.show(errorMessage.extendedData.errormessage,errorMessage.extendedData.errorcode);
+			else{ */
+				if(errorMessage.rootCause.hasOwnProperty("message"))
+					Alert.show(errorMessage.rootCause.message,errorMessage.faultCode);
+				else
+					Alert.show(errorMessage.rootCause.faultString,errorMessage.faultCode);
+			//}
+		}
+	]]>
+</mx:Script>
+
+	<mx:Label id="lbl" text="" />
+	
+	<mx:RemoteObject id="ro1" destination="main"  result="result(event)" fault="fault(event)"/>
+	
+	<mx:RemoteObject id="ro2" destination="myService"  result="result(event)" fault="fault(event)"/>
+	
+	<mx:RemoteObject id="ro3" destination="myHelloIntegratedBean"  result="result(event)" fault="fault(event)"/>
+	
+	
+</mx:Application>

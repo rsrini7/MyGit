@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" fontSize="20" backgroundColor="#FFFFFF">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import mx.messaging.messages.IMessage;
+			
+			private function messageHandler(message:IMessage):void
+			{
+				pushedValue.text = ""+ message.body;	
+			}
+			
+			private function startSubscribe():void
+			{
+				simpleFeedRO.start();
+				consumer.subscribe();
+			}
+			
+			private function stopSubscribe():void
+			{
+				simpleFeedRO.stop();
+				consumer.unsubscribe()
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:ChannelSet id="cs">
+		<!-- <mx:StreamingAMFChannel url="http://localhost:8080/FlexSpring/messagebroker/streamingamf"/> -->
+		<!--<mx:AMFChannel url="http://localhost:8080/FlexSpring/messagebroker/amflongpolling"/>
+		<mx:AMFChannel url="http://localhost:8080/FlexSpring/messagebroker/amfpolling"/>-->
+		
+		<mx:AMFChannel uri="/FlexSpring/messagebroker/amflongpolling"/>
+		<mx:AMFChannel uri="/FlexSpring/messagebroker/amfpolling"/>
+	</mx:ChannelSet>
+	
+	<mx:RemoteObject id="simpleFeedRO" destination="simpleFeedStarter" />
+	
+	<mx:Consumer id="consumer" destination="simple-feed" channelSet="{cs}" 
+		message="messageHandler(event.message)"/>
+
+	<mx:TextInput id="pushedValue" width="250"/>
+
+	<mx:Button label="Subscribe" click="startSubscribe()" enabled="{!consumer.subscribed}"/>
+	<mx:Button label="Unsubscribe" click="stopSubscribe()" enabled="{consumer.subscribed}"/>
+
+		
+</mx:Application>

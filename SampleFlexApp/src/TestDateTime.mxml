@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:timePicker="com.visualempathy.display.controls.datetime.*" color="#000000" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#FFFFFF, #FFFFFF]" horizontalAlign="center" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" fontFamily="Arial" height="300" verticalAlign="top" width="500" viewSourceURL="srcview/index.html">
+	<mx:Script>
+		<![CDATA[
+			[Bindable] private var dateString:String;
+			
+			public function onClick():void
+			{
+				if(picker.selectedDate.getFullYear() == 1974)
+				{
+					picker.selectedDate = new Date()
+					button.label = "My Birthday"
+				}
+				else
+				{
+					picker.selectedDate = new Date(1974,4,11,7,40)
+					button.label = "Now"
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox horizontalAlign="center" verticalAlign="top" width="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" height="300">
+		<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" backgroundColor="#F0F0F1" borderStyle="solid" borderThickness="0" cornerRadius="10">
+			<mx:Label text="Date and Time Picker:" fontWeight="bold" fontSize="14"/>
+			<timePicker:DateTimePicker selectedDate="{new Date()}" id="picker" change="this.dateString = picker.selectedDate.toString()" minuteIncrement="5" backgroundColor="#FFFFFF"/>		
+		</mx:VBox>
+		
+		<mx:HBox>
+			<mx:Button id="button" label="My Birthday" click="onClick()"/>	
+		</mx:HBox>
+		<mx:Label text="Selected Date: {dateString}" id="the" width="100%" textAlign="center" fontWeight="bold"/>
+	</mx:VBox>
+
+</mx:Application>

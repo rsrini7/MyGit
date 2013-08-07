@@ -1,0 +1,10 @@
+Buildfile: testtask.xml
+
+test:
+[manifestreader] Built On        : March 3 2006 at 11:41 AM
+[manifestreader] Product Name    : Manifest Printer
+[manifestreader] Product Version : 1.0.2
+[manifestreader] Copyright       : Khan Information Systems
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

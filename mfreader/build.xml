@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="Ant Task" default="compile" basedir=".">
+  <property name="dir.build" value="build"/>
+  <property name="dir.dist" value="dist"/>
+  <property name="dir.src" value="src"/>
+
+  <path id="classpath.project">
+    <pathelement path="${dir.build}"/>
+  </path>
+
+  <target name="compile" description="Compile all source code.">
+    <javac srcdir="${dir.src}" destdir="${dir.build}">
+      <classpath refid="classpath.project"/>
+    </javac>
+  </target>
+
+  <target name="demoDialogBox" depends="compile">
+      <taskdef name="dialogbox"
+              classname="DialogBoxTask"
+              classpath="${dir.build}"/>
+
+      <dialogbox message="Are you ready?"
+                 title="Important Question"
+                 property="response"
+                 optiontype="yes_no"/>
+
+      <dialogbox message="You entered ${response}!"/>
+
+      <dialogbox title="First response: ${response}">This is a dialog with a multi-line message.</dialogbox>
+  </target>
+</project>
+

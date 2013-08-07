@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Spring BlazeDS Integration</title>
+<link href="main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<h1>Spring / BlazeDS Integration</h1>
+<p>In this, you  run a series of short sample applications that demonstrate the key features of the Spring BlazeDS Integration.
+
+<h2>Samples</h2>
+<ul>
+<li><a href="#inventory">Spring BlazeDS Integration</a>: The basics</li>
+<li><a href="#insync">inSync Contact Management Application</a>: A simple CRUD application built in 8 steps</li>
+<li><a href="#company">Company Manager</a>: Similar to inSync, but demonstrates object associations</li>
+</ul>
+<h2>Source code:</h2>
+<ul>
+  <li>The Flex source code is in flex_src</li>
+  <li>The Java source code is in src</li>
+  <li>The remoting destinations are configured in the Spring configuration file: {context-root}/WEB-INF/config/web-application-config.xml</li>
+</ul>
+
+<br />
+
+<a name="inventory"></a>
+<div class="item">
+  <h3>Spring BlazeDS Integration</h3>
+  <h4>Run the sample:</h4>
+<ol>
+
+  <li>Click <a href="inventory.html">here</a> to run the application</li>
+  <li>Click &quot;Get Data&quot;:  The DataGrid is populated with  data returned by the findAll() method of the ProductDAO Java class. </li>
+  </ol>
+<h4>Code walkthrough:</h4>
+<p>Open inventory.mxml in the flex_src directory  to look at the source code of the application.</p>
+<p>Open the following files in a text editor to look at the source code for the server side  of the application: </p>
+<ul>
+  <li>{context-root}/WEB-INF/config/web-application-config.xml</li>
+  <li>{context-root}/src/flex/spring/samples/product/ProducDAO.java</li>
+</ul>
+</div>
+
+<br />
+
+<div class="item">
+  <h3>Contact-InSync: Adding Event Notification for &quot;Loosely Coupled&quot; UI Synchronization</h3>
+  <h4>Run the sample:</h4>
+<ol>
+  <li>Click <a href="insync.html">here</a> to run the application</li>
+  <li>Click the Search button to retrieve all the contacts in the database</li>
+  <li>Enter a few characters in the Search input field before clicking the Search button to search by name</li>
+  <li>Double-click a contact in the DataGrid to open it in a separate Tab </li>
+  <li>Modify the first name or last name of the contact and click &quot;Save&quot;. Notice that the DataGrid is updated to reflect your changes.</li>
+  <li>Add a new contact and click &quot;Save&quot; to create the contact. Notice that the contact appears in the DataGrid.</li>
+  <li>Delete a contact and notice that the contact is removed from the DataGrid.</li>
+  </ol>
+<h4>Code walkthrough:</h4>
+<p>Open insync.mxml, ContactForm.mxml, and ContactEvent.as in the flex_src directory  to look at the source code of the application.</p>
+<p>In this version, ContactForm dispatches events when a contact has been created, updated, or deleted. Other components of the application can register as listeners to these events to perform a specific task when a contact is created, updated or deleted. In this case, the main application registers as a listener to these events and refreshes the contact DataGrid to make sure it reflects the changes made in ContactForm.<br />
+</p>
+</div>
+<br />
+
+<a name="company"></a>
+<div class="item">
+  <h3>Company Manager</h3>
+  <h4>Run the sample:</h4>
+<ol>
+  <li>Click <a href="companymgr.html">here</a> to run the application</li>
+  <li>Click the Search button to retrieve all the contacts in the database</li>
+  <li>Enter a few characters in the Search input field before clicking the Search button to search by name</li>
+  </ol>
+<h4>Code walkthrough:</h4>
+<p>Open companymgr.mxml, Company.as, Industry.as, and CompanyForm.mxml in the flex_src directory  to look at the source code of the application.</p>
+<p>Open the following files in a text editor to look at the source code for the server side  of the application: </p>
+<ul>
+  <li>{context-root}/WEB-INF/config/web-application-config.xml</li>
+  <li>{context-root}src/flex/spring/samples/company/CompanyDAO.java</li>
+  <li>{context-root}src/flex/spring/samples/company/IndustryDAO.java</li>
+  <li>{context-root}src/flex/spring/samples/company/Company.java</li>
+  <li>{context-root}src/flex/spring/samples/company/Industry.java</li>
+</ul>
+<p>This application is similar to inSync, but demonstrates object associations: the Company class has a property of type Industry.<br />
+</p>
+</div>
+<br />
+
+</body>
+</html>

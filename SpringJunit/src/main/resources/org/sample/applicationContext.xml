@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="deliveryService" class="org.sample.MyService" >
+		<constructor-arg value="delivery service" />
+	</bean>
+
+	<bean id="accountingService" class="org.sample.MyService" >
+		<constructor-arg value="accounting service" />
+	</bean>
+
+	<bean id="configurableService" class="org.sample.MyConfigurableService" >
+		<constructor-arg value="configurable service" />
+	</bean>
+
+</beans>

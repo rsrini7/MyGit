@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 11.3-b02 (Sun Microsystems Inc.)
+Built-By: sragotha
+Build-Date: December 23 2011 at 03:26 PM
+
+Name: mySection
+Implementation-Title: Manifest Printer
+Implementation-Version: 1.0.2
+Implementation-Vendor: Khan Information Systems
+

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="initApp();" xmlns:georg="com.georg.*">
+	
+  <mx:Script><![CDATA[
+	  import mx.collections.ArrayCollection;
+	  import mx.events.CollectionEvent;
+	  import mx.utils.ObjectProxy;
+
+	  	[Bindable] private var acData:ArrayCollection = new ArrayCollection();
+	  
+        public function initApp():void 
+        {
+			var d:Date = new Date();
+			d.date = 20;
+			
+			acData.addEventListener(CollectionEvent.COLLECTION_CHANGE, cChange);
+			
+			acData.addItem(new ObjectProxy({title:"First", date: d}));
+			acData.addItem(new ObjectProxy({title:"Second", date: new Date()}));
+        }
+	  
+	  private function cChange(e:CollectionEvent):void
+	  {
+		  if (acData.length > 1)
+		  {
+			  fd.text = acData[0].title + " date: " + acData[0].date;
+			  sd.text = acData[1].title + " date: " + acData[1].date;
+		  }
+	  }
+
+    ]]></mx:Script>
+	<mx:Panel title="DateTime Controls" layout="vertical" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
+		<mx:DataGrid id="datagrid" width="300" height="120" editable="true" dataProvider="{acData}" rowHeight="24">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Title" dataField="title" />
+				<mx:DataGridColumn headerText="Date" dataField="date" itemRenderer="com.georg.DateTimeField" editable="false" />
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<mx:Label id="fd" />
+		<mx:Label id="sd" />
+	</mx:Panel>
+</mx:Application>

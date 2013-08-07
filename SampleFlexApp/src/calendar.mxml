@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="onCreationComplete()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.DateChooserEventDetail;
+			import mx.events.DateChooserEvent;
+			import mx.events.CalendarLayoutChangeEvent;
+			
+			/**
+			 * onCreationComplete
+			 * 
+			 * @access public
+			 * @param void
+			 * @return void
+			 */
+			public function onCreationComplete() : void 
+			{
+				
+				var currentDate : Date = new Date();
+				
+				// set current date
+				this.dateLabel.text = currentDate.toString();
+				
+				// simple init
+				this.months.selectedIndex = currentDate.getMonth();
+				this.years.selectedItem = currentDate.getFullYear().toString();
+				
+				// register some event listeners
+				this.calend.addEventListener(DateChooserEvent.SCROLL, onChangeMonth);
+				this.months.addEventListener(Event.CHANGE, onChangeDropDownMonth);
+				this.years.addEventListener(Event.CHANGE, onChangeDropDownYears);
+			}
+			
+			/**
+			 * onChangeMonth
+			 * 
+			 * @access private
+			 * @param DateChooserEvent
+			 * @return void
+			 */
+			private function onChangeMonth( event : DateChooserEvent ) : void 
+			{
+				if (event.detail == DateChooserEventDetail.NEXT_MONTH)
+					this.months.selectedIndex++;
+					
+				if (event.detail == DateChooserEventDetail.PREVIOUS_MONTH) 
+					this.months.selectedIndex--;
+				
+				if (event.detail == DateChooserEventDetail.PREVIOUS_YEAR) {
+					this.months.selectedIndex = 11;
+					this.years.selectedIndex--;
+				}
+				
+				if (event.detail == DateChooserEventDetail.NEXT_YEAR) {
+					this.months.selectedIndex = 0;
+					this.years.selectedIndex++;
+				}
+				
+				this.updateLabel();
+				
+			}
+			
+			/**
+			 * onChangeDropDownMonth
+			 * 
+			 * @access private
+			 * @param Event event
+			 * @return void
+			 */
+			private function onChangeDropDownMonth( event : Event ) : void 
+			{
+				this.calend.displayedMonth = (this.months.selectedIndex as Number);
+				
+				this.updateLabel();
+			}
+			
+			/**
+			 * onChangeDropDownYears
+			 * 
+			 * @access private
+			 * @param Event event
+			 * @return void
+			 */
+			private function onChangeDropDownYears( event : Event ) : void 
+			{
+				this.calend.displayedYear = this.years.selectedItem.toString();
+				
+				this.updateLabel();
+			}
+			
+			/**
+			 * updateLabel
+			 * 
+			 * @access private
+			 * @param void
+			 * @return void
+			 */
+			private function updateLabel() : void 
+			{
+				this.dateLabel.text = new Date(
+					this.years.selectedItem.toString(), 
+					this.months.selectedIndex
+				).toString();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:DateChooser id="calend" name="calendar" width="245" height="190" />
+		<mx:ComboBox id="months" x="31" y="4" width="105" fillAlphas="[1.0, 1.0, 1.0, 1.0]">
+			<mx:ArrayCollection>
+				<mx:String>January</mx:String>
+				<mx:String>February</mx:String>
+				<mx:String>March</mx:String>
+				<mx:String>April</mx:String>
+				<mx:String>May</mx:String>
+				<mx:String>June</mx:String>
+				<mx:String>July</mx:String>
+				<mx:String>August</mx:String>
+				<mx:String>September</mx:String>
+				<mx:String>October</mx:String>
+				<mx:String>November</mx:String>
+				<mx:String>December</mx:String>
+			</mx:ArrayCollection>
+		</mx:ComboBox>
+		<mx:ComboBox id="years" x="140" y="4" width="75" fillAlphas="[1.0, 1.0, 1.0, 1.0]">
+			<mx:ArrayCollection>
+				
+				<mx:String>1990</mx:String>
+				<mx:String>1991</mx:String>
+				<mx:String>1992</mx:String>
+				<mx:String>1993</mx:String>
+				<mx:String>1994</mx:String>
+				<mx:String>1995</mx:String>
+				<mx:String>1996</mx:String>
+				<mx:String>1997</mx:String>
+				<mx:String>1998</mx:String>
+				<mx:String>1999</mx:String>
+				
+				<mx:String>2000</mx:String>
+				
+				<mx:String>2001</mx:String>
+				<mx:String>2002</mx:String>
+				<mx:String>2003</mx:String>
+				<mx:String>2004</mx:String>
+				<mx:String>2005</mx:String>
+				<mx:String>2006</mx:String>
+				<mx:String>2007</mx:String>
+				<mx:String>2008</mx:String>
+				<mx:String>2009</mx:String>
+				<mx:String>2010</mx:String>
+				
+				<mx:String>2011</mx:String>
+				<mx:String>2012</mx:String>
+				<mx:String>2013</mx:String>
+				<mx:String>2014</mx:String>
+				<mx:String>2015</mx:String>
+				<mx:String>2016</mx:String>
+				<mx:String>2017</mx:String>
+				<mx:String>2018</mx:String>
+				<mx:String>2020</mx:String>
+				<mx:String>2020</mx:String>
+				
+			</mx:ArrayCollection>
+		</mx:ComboBox>
+		<mx:Text x="266" y="6" id="dateLabel" text="" width="132" />
+
+</mx:Application>

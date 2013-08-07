@@ -1,0 +1,94 @@
+<project name="mfprinter" default="buildjar">
+	<property file="build.properties"/>
+	<property environment="env"/>
+
+	<property name="src.home" value="${basedir}/src/ant"/>
+	<property name="dist.home" value="${basedir}/dist"/>
+	<property name="build.home" value="${basedir}/build/mfprinter"/>
+	<property name="meta.home" value="${basedir}/manifests/mfprinter"/>
+
+	<path id="compile.path">
+		<fileset dir="${basedir}/lib">
+			<include name="log4j-1.2.16.jar"/>
+		</fileset>
+		<fileset dir="${ant.library.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="genBuildNo">
+		<echo message="Incrementing build number!"/>
+		<propertyfile file="${basedir}/buildno.properties">
+			<entry key="mfprinter.buildno" type="int" operation="+" value="1" default="0"/>
+		</propertyfile>
+	</target>
+
+	<target name="getBuildNo">
+		<echo message="Reading build number!"/>
+		<loadproperties srcfile="${basedir}/buildno.properties" />
+		<echo message="Build number is ${mfprinter.buildno}"/>
+	</target>
+
+	<target name="genManifest" depends="getBuildNo">
+		<echo message="Build number is : ${mfprinter.buildno}" />
+		<mkdir dir="${meta.home}"/>
+		<delete file="${meta.home}/MANIFEST.MF"/>
+		<tstamp>
+			<format property="build.time" pattern="hh:mm aa" />
+		</tstamp>
+		<manifest file="${meta.home}/MANIFEST.MF" >
+			<attribute name="Built-By"   value="${user.name}"/>
+			<attribute name="Build-Date" value="${TODAY} at ${build.time}"/>
+			<section name="${mfprinter.section}">
+				<attribute name="Implementation-Title"	 value="${mfprinter.appname}"/>
+				<attribute name="Implementation-Version" value="${mfprinter.version}.${mfprinter.buildno}"/>
+				<attribute name="Implementation-Vendor"  value="${mfprinter.vendor}"/>
+			</section>
+		</manifest>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build.home}"/>
+		<javac destdir="${build.home}" debug="${compile.debug}" 
+			deprecation="${compile.deprecation}" optimize="${compile.optimize}"
+			verbose="${show.output}" listfiles="${show.filelist}"
+			srcdir="${src.home}">
+			<classpath refid="compile.path"/>
+		</javac>
+	</target>
+
+	<target name="copymetafiles">
+		<copy todir="${build.home}">
+			<fileset file="${basedir}/config/manifestreader.properties"/>
+		</copy>
+		<copy todir="${build.home}">
+			<fileset dir="${src.home}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<!--
+	Externally usable tasks
+	-->
+
+	<target name="clean" description="Clears the build directory.">
+		<delete dir="${build.home}"/>
+	</target>
+
+	<target name="buildjar" depends="compile, genManifest, copymetafiles"
+		description="Creates a jar file.">
+		<mkdir dir="${dist.home}"/>
+		<jar jarfile="${dist.home}/${mfprinter.jarname}-${mfprinter.version}.${mfprinter.buildno}.jar" 
+				basedir="${build.home}" 
+				manifest="${meta.home}/MANIFEST.MF" />
+	</target>
+
+	<target name="dist" depends="compile, genBuildNo, genManifest, copymetafiles"
+		description="Creates a final jar file by incrementing the build number">
+		<mkdir dir="${dist.home}"/>
+		<jar jarfile="${dist.home}/${mfprinter.jarname}-${mfprinter.version}.${mfprinter.buildno}.jar" 
+				basedir="${build.home}" 
+				manifest="${meta.home}/MANIFEST.MF" />
+	</target>
+</project>

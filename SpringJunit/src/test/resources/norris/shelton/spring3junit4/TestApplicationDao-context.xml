@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!--
+        Scan for spring beans in this package and all sub-packages
+    -->
+    <context:component-scan base-package="norris.shelton.spring3junit4"/>
+
+    <!--
+        Scan for classes needing transactions.  Defaults to using a transaction manager object named transactionManager
+    -->
+    <tx:annotation-driven/>
+
+    <!--
+        Instantiate a transaction manager object for the specified datasource
+    -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="bhsAuxCmsDataSource"/>
+
+    <!--
+        Create a pooled datasource.  On the production side, you would probably use the jee schema:
+        <jee:jndi-lookup id="bhsAuxCmsDataSource" jndi-name="jdbc/some_jndi_name"/>
+    -->
+    <bean id="bhsAuxCmsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/vaswindb"
+          p:username="root"
+          p:password="password"
+          p:defaultAutoCommit="false"/>
+
+    <!--
+        Create a jdbc template object for the given datasource
+    -->
+    <bean id="bhsAuxCmsJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="bhsAuxCmsDataSource"/>
+
+    <!--
+        Create a named parameter jdbc template object for the given datasource
+    -->
+    <bean id="bhsAuxCmsNamedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="bhsAuxCmsDataSource"/>
+    </bean>
+</beans>
